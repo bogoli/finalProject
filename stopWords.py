@@ -12,7 +12,7 @@ with open('stopwords.txt', 'r') as wordList:
 	
 
 class DOC:
-	#document frequency statically referenced
+	# document frequency statically referenced
 	df = dict()
 	
 	def __init__(self, doc):
@@ -20,15 +20,16 @@ class DOC:
 		self.author = doc.find("AUTHOR").text.strip()
 		self.text = doc.find("TEXT").text.strip()
 		
-		#word frequency
+		# index words in document
 		self.wf = dict()
 		self.__index(self.title)
                 self.__index(self.author)
                 self.__index(self.text)
 	
 	def __index(self, str):
-		#replace punctation delimiters with whitespace delimiters and split
+		# replace punctation delimiters with whitespace delimiters and split
 		for word in re.sub('[^\w]+', ' ', str).split():
+			# don't index unnecessarily short words or numbers
 			if len(word) > 4 and re.search('[a-zA-Z]', word):
 				if not word in DOC.df:
 					DOC.df[word] = 0
@@ -38,6 +39,11 @@ class DOC:
 				else:
 					self.wf[word] += 1
 	
+	def calcRank(self, words):
+		sum = 0
+		for word in words:
+			if word in DOC.df and word in self.wf:
+				sum += self.wf[word] / DOC.df[word]
 
 docs = []
 for i in range(1, 51):
