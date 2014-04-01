@@ -30,7 +30,7 @@ class DOC:
 		# replace punctation delimiters with whitespace delimiters and split
 		for word in re.sub('[^\w]+', ' ', str).split():
 			# don't index unnecessarily short words or numbers
-			if len(word) > 4 and re.search('[a-zA-Z]', word):
+			if len(word) >= 4 and re.search('[a-zA-Z]', word):
 				if not word in DOC.df:
 					DOC.df[word] = 0
 				if not word in self.wf:
@@ -42,8 +42,13 @@ class DOC:
 	def calcRank(self, words):
 		sum = 0
 		for word in words:
-			if word in DOC.df and word in self.wf:
-				sum += self.wf[word] / DOC.df[word]
+			# if word is in self.wf it should also be in DOC.df unless something bizarre goes terribly wrong
+			if word in self.wf:
+				sum += self.wf[word] / float(DOC.df[word])
+				print 'word "{}" passed the test!\nwf: {} ~ df: {} ~ sum: {}\n'.format(word, self.wf[word], DOC.df[word], sum)
+			else:
+				print 'word "{}" did not pass the test...\n'.format(word)
+		return sum
 
 docs = []
 for i in range(1, 51):
@@ -51,6 +56,4 @@ for i in range(1, 51):
 	docs.append(DOC(xml.parse(str).getroot()))
 
 #make sure it all works
-print docs[0].wf['study']
-for word, df  in DOC.df.iteritems():
-	print word, ': ', df
+print docs[0].calcRank(['study', 'lift'])
