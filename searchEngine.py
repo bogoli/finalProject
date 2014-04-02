@@ -30,7 +30,7 @@ class DOC:
 		# replace punctation delimiters with whitespace delimiters and split
 		for word in re.sub('[^\w]+', ' ', str).split():
 			# don't index unnecessarily short words or numbers
-			if len(word) >= 4 and re.search('[a-zA-Z]', word):
+			if word not in stopWords and len(word) >= 4 and re.search('[a-zA-Z]', word):
 				if not word in DOC.df:
 					DOC.df[word] = 0
 				if not word in self.wf:
