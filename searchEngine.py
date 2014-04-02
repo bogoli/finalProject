@@ -33,9 +33,9 @@ class DOC:
 	
 	def __index(self, str):
 		# replace punctation delimiters with whitespace delimiters and split
-		for word in re.sub('[^\w]+', ' ', str).split():
+		for word in re.sub('[^\w]+', ' ', str).split():  # regex, replaces non-word characters with white space
 			# don't index unnecessarily short words or numbers
-			if word not in stopWords and len(word) >= 4 and re.search('[a-zA-Z]', word):
+			if word not in stopWords and re.search('[a-zA-Z]', word):  # regex, checks that word has at least one letter
 				if not word in DOC.docsHave:
 					DOC.docsHave[word] = []
 				if not word in self.docHas:
@@ -58,5 +58,26 @@ for i in range(1, 51):
 	str = "documents/cranfield00" + ("0" + `i` if i < 10 else `i`)
 	docs.append(DOC(xml.parse(str).getroot()))
 
+
+def parse(query):
+	if "AND" in query:
+		
+	if "OR" in query:
+		
+
+
 # make sure it all works
-print DOC.docsHave["data"]
+
+# print DOC.docsHave["data"]
+# inputVar = input("input something: ")
+
+parse("whataboutORthis")
+
+# mergedlist = list(set(listone + listtwo))
+
+
+
+
+
+
+
