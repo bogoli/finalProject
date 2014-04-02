@@ -47,7 +47,7 @@ class DOC:
 	def calcRank(self, words):
 		sum = 0
 		for word in words:
-			# if word is in self.wf it should also be in DOC.df unless something bizarre goes terribly wrong
+			# if word is in self.docHas it should also be in DOC.docsHave unless something bizarre goes terribly wrong
 			if word in self.docHas:
 				sum += self.docHas[word] / float(len(DOC.docsHave[word]))
 		return sum
