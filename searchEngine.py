@@ -33,9 +33,9 @@ class DOC:
 	
 	def __index(self, str):
 		# replace punctation delimiters with whitespace delimiters and split
-		for word in re.sub('[^\w]+', ' ', str).split():  # regex, replaces non-word characters with white space
+		for word in re.sub('[^\w]+', ' ', str).split(): 
 			# don't index unnecessarily short words or numbers
-			if word not in stopWords and re.search('[a-zA-Z]', word):  # regex, checks that word has at least one letter
+			if word not in stopWords and re.search('[a-zA-Z]', word): 
 				if not word in DOC.docsHave:
 					DOC.docsHave[word] = []
 				if not word in self.docHas:
@@ -66,48 +66,42 @@ def parse(query):
 		right = query[query.index('AND'):]
 		right = right.split()
 		right.remove('AND')
-		print "left: " 
-		print left
-		print "right: " 
-		print right
-#		parse(query)
+
+		# needs to recurse until there are lists with only one word
+		if (len(right) == 1) and (len(left) == 1):
+			return [e for e in DOC.docsHave[right[0]] if e in DOC.docsHave[left[0]]]
+
+
 	elif "OR" in query:
 		left = query[:query.index('OR')]
 		left = left.split()
 		right = query[query.index('OR'):]
 		right = right.split()
 		right.remove('OR')
-		print "left: " 
-		print left
-		print "right: " 
-		print right
-		print query
-#		parse(query)
+
+		# needs to recurse until there are lists with only one word
+		if (len(right) == 1) and (len(left) == 1):
+			return set(DOC.docsHave[left[0]] + DOC.docsHave[right[0]])
+
 	else:
-		print query
+		# query is just one word
+		return DOC.docsHave[query]
 
 
-# make sure it all works
+# TESTING
 
-# print DOC.docsHave["data"]
-# inputVar = input("input something: ")
+# print DOC.docsHave["data"
 
-query = "What about this OR that AND this"
+query = "equations"
 query.split()
-parse(query)
-
+result = parse(query)
+print result
 
 # NOTES
-# mergedlist = list(set(listone + listtwo))
-#
+# <BIBLIO> tag is not being indexed. ()
+
 #using array merging to implement "NOT"
 #    result = [e for e in documents if e not in DOC.haveWord[word]]
-
-#using array merging to implement "AND"
-#    result = [e for e in DOC.haveWord[word1] if e in DOC.haveWord[word2]]
-
-#using set to implement "OR"
-#    result = set(DOC.haveWord[word1] + DOC.haveWord[word2])
 
 
 
