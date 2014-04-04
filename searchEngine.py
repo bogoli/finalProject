@@ -58,6 +58,12 @@ for i in range(1, 51):
 	str = "documents/cranfield00" + ("0" + `i` if i < 10 else `i`)
 	docs.append(DOC(xml.parse(str).getroot()))
 
+# def mergeAnd(list1, list2):
+
+# def mergeOr(list1, list2):
+
+# def mergeNot(list1):
+
 
 def parse(query):
 	if "AND" in query:
@@ -99,7 +105,7 @@ def parse(query):
 
 # print DOC.docsHave["data"
 
-query = "equations AND airplane"
+query = "substantial AND increment"
 query.split()
 result = parse(query)
 print result
