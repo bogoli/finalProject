@@ -71,6 +71,12 @@ def parse(query):
 		if (len(right) == 1) and (len(left) == 1):
 			return [e for e in DOC.docsHave[right[0]] if e in DOC.docsHave[left[0]]]
 
+		elif (len(left) > 1):
+			print left
+
+		elif (len(right) > 1):
+			print right
+
 
 	elif "OR" in query:
 		left = query[:query.index('OR')]
@@ -83,6 +89,7 @@ def parse(query):
 		if (len(right) == 1) and (len(left) == 1):
 			return set(DOC.docsHave[left[0]] + DOC.docsHave[right[0]])
 
+
 	else:
 		# query is just one word
 		return DOC.docsHave[query]
@@ -92,7 +99,7 @@ def parse(query):
 
 # print DOC.docsHave["data"
 
-query = "equations"
+query = "equations AND airplane"
 query.split()
 result = parse(query)
 print result
