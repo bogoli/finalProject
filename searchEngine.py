@@ -2,15 +2,17 @@
 # adds stop words to a dictionary
 # parses 50 documents and indexes the words found in them
 # accepts a query string with limited boolean operations allowed
-# returns a list of documents that 
+# returns a list of documents that match a given query string
+# can be run in interactive mode or as a single command with the -q flag
 
 import xml.etree.ElementTree as xml
+import argparse
 import re
 
+# index a list of stopwords so we don't indnex unnecesarily short or common words
 stopWords = dict()
 with open('stopwords.txt', 'r') as wordList:
 	for line in wordList:
-		# strip() gets rid of the newline char
 		stopWords[line.strip()] = 1 
 	
 
@@ -20,9 +22,12 @@ class DOC:
 	docsHave = dict()
 	
 	def __init__(self, file):
+		# prep the xml parser
 		doc = xml.parse("documents/" + file).getroot()
+		
+		# set document attributes
 		self.file = file
-		self.index = int(doc.find("DOCNO").text.strip())
+		self.docno = int(doc.find("DOCNO").text.strip())
 		self.title = doc.find("TITLE").text.strip()
 		self.author = doc.find("AUTHOR").text.strip()
                 self.biblio = doc.find("BIBLIO").text.strip()
@@ -65,21 +70,15 @@ for i in range(1, 51):
 def mergeAND(left, right):
 	return [e for e in left if e in right]
 def mergeOR(left, right):
-	return set(left + right)
+	return left + [e for e in right if e not in left]
 def mergeNOT(word):
 	if word not in DOC.docsHave:
 		return docs
 	
 	return [e for e in docs if e not in DOC.docsHave[word]]
 
-# prepare the query statement to be ahndled by the recursive parser - AND gets priority so replace it with space
-def fetchQuery(str):
-	# regex to replace AND or -'s with a space, as that is the default operation for two words, then convert to upper for case insensitivity and split into an array of words
-	return parseQuery(docs, re.sub('(AND|-)', ' ', str.upper()).split())
-
 # recursive method for handling the query word at a time, AND operation gets precedence
 def parseQuery(mergee, words):
-	print words
 	# simplest base case, an empty list of words
 	if not words:
 		return mergee;
@@ -108,47 +107,41 @@ def parseQuery(mergee, words):
 		# resolve the immediate word and continue to parse since AND has highest priority
 		return parseQuery(mergeAND(mergee, DOC.docsHave[words[0]]), words[1:])
 
-# Make sure it all works
-word1 = "air"
-word2 = "tolerance"
-word3 = "increment"
-word4 = "study"
+# prepare the query statement to be handled by the recursive parser - AND gets priority so replace it with space
+def fetchQuery(str):
+        # regex to replace AND or -'s with a space, as that is the default operation for two words, then convert to upper for case insensitivity and split into an array of words
+        result = parseQuery(docs, re.sub('(AND|-)', ' ', str.upper()).split())
+	
+	# sort the result
+	# TODO: Insert sort method call
+	
+	# return the sorted list
+	return result
 
-result = fetchQuery(word1)
-print word1 + ": "
-for e in result:
-	print e.file
-print " "
+# Console output
+def printQuery(str):
+	results = fetchQuery(str)
+	if len(results) == 0:
+		print 'No documents match your query'
+	else:
+		for i, doc in enumerate(results):
+			print `i + 1` + ' - Calculated Rank: ' + `doc.calcRank(re.sub('(AND|-)', ' ', str.upper()).split())` + ' - File: ' +  doc.file
 
-result = fetchQuery(word2)
-print word2 + ": "
-for e in result:
-        print e.file
-print " "
+# Command line interaction
+parser = argparse.ArgumentParser(description='Scan documents based on a simple query')
+parser.add_argument('-i', '--interactive', action="store_true", help='Run in interactive mode')
+parser.add_argument('--query', help='Allows for basic AND, OR, and NOT logical operators.')
 
-result = fetchQuery(word3)
-print word3 + ": "
-for e in result:
-        print e.file
-print " "
-
-
-result = fetchQuery(word1 + " AND " + word2 + " OR " + word3)
-print word1 + " AND " + word2 + " OR " + word3 + ":"
-if result != -1:
-	for e in result:
-        	print e.file
-else:
-	print "Query Error"
-print " "
-
-result = fetchQuery(word4 + " AND NOT " + word1)
-print word4 + " AND NOT " + word1 + ": "
-
-if result != -1:
-        for e in result:
-                print e.file
-else:
-        print "Query Error"
-print " "
-
+# Parse the arguments and handle the situation appropriately
+args = parser.parse_args()
+if args.query:
+	printQuery(args.query)
+elif args.interactive:
+	print "Enter a query or '-q' to exit: "
+	interactiveQuery = raw_input()
+	while interactiveQuery != '-q':
+		if interactiveQuery.strip() != "":
+			printQuery(interactiveQuery.strip())
+		
+		print "\nEnter a query or '-q' to exit: "
+		interactiveQuery = raw_input()
