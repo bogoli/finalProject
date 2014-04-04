@@ -61,9 +61,30 @@ for i in range(1, 51):
 
 def parse(query):
 	if "AND" in query:
-		
-	if "OR" in query:
-		
+		left = query[:query.index('AND')]
+		left = left.split()
+		right = query[query.index('AND'):]
+		right = right.split()
+		right.remove('AND')
+		print "left: " 
+		print left
+		print "right: " 
+		print right
+#		parse(query)
+	elif "OR" in query:
+		left = query[:query.index('OR')]
+		left = left.split()
+		right = query[query.index('OR'):]
+		right = right.split()
+		right.remove('OR')
+		print "left: " 
+		print left
+		print "right: " 
+		print right
+		print query
+#		parse(query)
+	else:
+		print query
 
 
 # make sure it all works
@@ -71,9 +92,24 @@ def parse(query):
 # print DOC.docsHave["data"]
 # inputVar = input("input something: ")
 
-parse("whataboutORthis")
+query = "What about this OR that AND this"
+query.split()
+parse(query)
 
+
+# NOTES
 # mergedlist = list(set(listone + listtwo))
+#
+#using array merging to implement "NOT"
+#    result = [e for e in documents if e not in DOC.haveWord[word]]
+
+#using array merging to implement "AND"
+#    result = [e for e in DOC.haveWord[word1] if e in DOC.haveWord[word2]]
+
+#using set to implement "OR"
+#    result = set(DOC.haveWord[word1] + DOC.haveWord[word2])
+
+
 
 
 
