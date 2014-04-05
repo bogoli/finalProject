@@ -1,8 +1,7 @@
 /* style.css */
-
+/* Lia Bogoev & John Call - CS2420 Final Project */
 
 body{
-	position: fixed;
     margin: 0;
     padding: 0;
 
@@ -29,45 +28,96 @@ body{
 
 header{
 	width: 100%;
-	position: fixed;
+	position: absolute;
 	left: 0px;
 	top: 0px;
-
 	text-align: center;
+
+	background: #eee;
 }
 
 section{
-	position: fixed;
 	width: 100%;
+}
 
-	margin-top: 150px;
+#search{
+	width: 100%;
+	margin-top: 175px;
 }
 
 form{
 	text-align: center;
 	font-family: 'Source Code Pro', Arial;
     font-weight: 300; 
+
 }
 
 input{
 	width: 350px;
-	height: 35px;
-	margin-right: auto;
-	margin-left: auto;
-	padding: 0px;
+	height: 40px;
+	margin: 0 auto;
+	padding: 5px;
+
+	font-family: 'Source Code Pro', Arial;
+	font-weight: 300; 
+	font-size: 1.2em;
+	line-height: 1.2em;
+
+	border: 1px solid #ccc;
+ 	border-radius: 50px;
+
+}
+
+input:focus{ 
+
 }
 
 input::-webkit-input-placeholder {
 	color: #aaa;
 	font-family: 'Source Code Pro', Arial;
 	font-weight: 300; 
-	font-size: 1.2em;
+	font-size: 1em;
 }
+
 input:-moz-placeholder{
 	color: #aaa;
 	font-family: 'Source Code Pro', Arial;
     font-weight: 300; 
-    font-size: 1.2em;
+    font-size: 1em;
+}
+
+button{
+	display: inline;
+	height: 40px;
+	width: 40px;
+	padding: 0px;
+	margin:0px;
+
+	font-family: 'Source Code Pro', Arial;
+	font-weight: 300; 
+	font-size: 1.2em;
+	line-height: 1.2em;
+
+	border: 1px solid #777;
+ 	border-radius: 25px;
+
+ 	background: #ddd;
+}
+
+img{
+	width: 20px;
+	height: 20px;
+}
+
+
+#results{
+	width: 100%;
+	overflow: scroll;
+}
+
+article{
+	width: 75%;
+	margin: 25px auto;
 }
 
 footer{
@@ -79,8 +129,8 @@ footer{
 	font-size: 0.75em;
 	text-align: right;
 
-	background: #888;
-	color: #ccc;
+	background: #fff;
+	color: #aaa;
 }
 
 p{
@@ -89,4 +139,37 @@ p{
 
 h1{
 	font-size: 4em;
+	line-height: .75em;
 }
+h2{
+	margin: 0;
+	font-size: 1.4em;
+	line-height: 2em;
+}
+h3{
+	margin: 0;
+	font-size: 1.2em;
+	line-height: 1.5em;
+}
+
+a:link {
+	color: #555;
+	text-decoration: underline;
+	padding: 10px 0px;
+}
+a:visited {
+	color: #555;
+}
+a:hover {
+	color: #FE5A27;
+}
+a:active {
+
+}
+
+
+
+
+
+
+
