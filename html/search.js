@@ -30,10 +30,10 @@ $(document).ready(function() {
 			results.html('');
 			
 			$.each(json, function(i, doc) {
-				var article = $('<article>', { 'data-file': doc.file });
+				var article = $('<article>');
 				article.append($('<h2>', { html: doc.title }));
 				article.append($('<h3>', { html: doc.author }));
-				article.append($('<a>', { href: '#', html: 'expand' }));
+				article.append($('<a>', { href: doc.file, html: 'expand' }));
 				
 				results.append(article);
 			});
@@ -57,7 +57,7 @@ $(document).ready(function() {
 	
 	// Bind the expansion element in an article to open a highlighted full text view
 	results.on('click', 'a', function() {
-		console.log('show file: ' + $(this).closest('article').attr('data-file'));
+		console.log('show file: ' + $(this).attr('href'));
 		return false;
 	});
 });
