@@ -3,20 +3,19 @@ $(document).ready(function() {
 	query,
 	results = $("section#results"),
 	
-	// Return a jQuery object representing a dynamically generating loading image
-	ajaxLoader = function(props) {
-		props = $.extend({
+	// Return a jQuery object representing a dynamically generated loading image
+	ajaxLoader = $('<article>', {
+		html: $('<img>', {
 			src: 'ajax-loader.gif',
 			alt: 'Loading...',
 			title: 'Loading...'
-		}, props);
-		return $('<img>', props);
-	},
+		})
+	}),
 	
 	// Perform a search based on input from the text input
 	search = function() {
 		query = $('input').val();
-		results.html(ajaxLoader());
+		results.html(ajaxLoader);
 		
 		$.ajax({
 			type: 'POST',
@@ -28,26 +27,23 @@ $(document).ready(function() {
 				'action': 'search'
 			}
 		}).done(function(json) {
-			console.log(json);
+			results.html('');
 			
-			if (json.length == 0) {
-				results.html('<h2>No Results to Display</h2>');
-			}
-			else {
-				results.html('');
-				$.each(json, function(i, doc) {
-					var article = $('<article>', { 'data-file': doc.file });
-					article.append($('<h2>', { html: doc.title }));
-					article.append($('<h3>', { html: doc.author }));
-					article.append($('<a>', { href: '#', html: 'expand' }));
-					results.append(article);
-				});
+			$.each(json, function(i, doc) {
+				var article = $('<article>', { 'data-file': doc.file });
+				article.append($('<h2>', { html: doc.title }));
+				article.append($('<h3>', { html: doc.author }));
+				article.append($('<a>', { href: '#', html: 'expand' }));
+				
+				results.append(article);
+			});
+			
+			if (results.find('article').length == 0) {
+				results.html('<article><h2>No Results to Display...</h2></article>');
 			}
 		}).fail(function() {
-			console.log('Connection Failure');
-			results.html('<h2>No Results to Display</h2>');
+			results.html('<article><h2>Unable to Connect to Remote Server...</h2></article>');
 		});
-		
 	};
 	
 	// Bind the search method for both button click and the enter key press in the search box
