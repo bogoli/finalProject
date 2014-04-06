@@ -130,7 +130,7 @@ def printQuery(str):
 # Command line interaction
 parser = argparse.ArgumentParser(description='Scan documents based on a simple query')
 parser.add_argument('-i', '--interactive', action="store_true", help='Run in interactive mode')
-parser.add_argument('--query', help='Allows for basic AND, OR, and NOT logical operators.')
+parser.add_argument('-q', '--query', help='Allows for basic AND, OR, and NOT logical operators.')
 
 # Parse the arguments and handle the situation appropriately
 args = parser.parse_args()
