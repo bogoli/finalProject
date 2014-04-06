@@ -7,9 +7,10 @@
 
 import xml.etree.ElementTree as xml
 import argparse
+import json
 import re
 
-# index a list of stopwords so we don't indnex unnecesarily short or common words
+# index a list of stop words so we don't index unnecessarily short or common words
 stopWords = dict()
 with open('stopwords.txt', 'r') as wordList:
 	for line in wordList:
@@ -30,18 +31,18 @@ class DOC:
 		self.docno = int(doc.find("DOCNO").text.strip())
 		self.title = doc.find("TITLE").text.strip()
 		self.author = doc.find("AUTHOR").text.strip()
-                self.biblio = doc.find("BIBLIO").text.strip()
+		self.biblio = doc.find("BIBLIO").text.strip()
 		self.text = doc.find("TEXT").text.strip()
 		
 		# index words in document
 		self.docHas = dict()
 		self.__index(self.title)
-                self.__index(self.author)
-                self.__index(self.biblio)
-                self.__index(self.text)
+		self.__index(self.author)
+		self.__index(self.biblio)
+		self.__index(self.text)
 	
 	def __index(self, str):
-		# replace punctation delimiters with whitespace delimiters and split
+		# replace punctuation delimiters with whitespace delimiters and split
 		for word in re.sub('[^\w]+', ' ', str.upper()).split(): 
 			# don't index unnecessarily short words or numbers
 			if word not in stopWords and re.search('[a-zA-Z]', word): 
@@ -85,7 +86,7 @@ def parseQuery(mergee, words):
 
 	# next simplest base case, the first word is not found in the query
 	elif words[0] not in DOC.docsHave:
-                return parseQuery([], words[1:])
+		return parseQuery([], words[1:])
 	
 	elif words[0] == 'NOT':
 		# there better be at least one word after NOT that's neither NOT nor OR
@@ -107,34 +108,57 @@ def parseQuery(mergee, words):
 		# resolve the immediate word and continue to parse since AND has highest priority
 		return parseQuery(mergeAND(mergee, DOC.docsHave[words[0]]), words[1:])
 
+class heapNode:
+	def __init__(self, doc, words):
+		# set node attributes
+		self.doc = doc
+		self.rank = doc.calcRank(words)
+		
+		# populate json data
+		self.json = dict()
+		self.json['file'] = self.doc.file
+		self.json['title'] = self.doc.title
+		self.json['author'] = self.doc.author
+		#self.json['biblio'] = self.doc.biblio
+
 # prepare the query statement to be handled by the recursive parser - AND gets priority so replace it with space
 def fetchQuery(str):
-        # regex to replace AND or -'s with a space, as that is the default operation for two words, then convert to upper for case insensitivity and split into an array of words
-        result = parseQuery(docs, re.sub('(AND|-)', ' ', str.upper()).split())
+	# regex to replace AND or -'s with a space, as that is the default operation for two words, then convert to upper for case insensitivity and split into an array of words
+	words = re.sub('(AND|-)', ' ', str.upper()).split()
+	results = [heapNode(e, words) for e in parseQuery(docs, words)]
 	
 	# sort the result
 	# TODO: Insert sort method call
 	
 	# return the sorted list
-	return result
+	return results
 
 # Console output
-def printQuery(str):
+def printQuery(str, isJSON = False):
 	results = fetchQuery(str)
-	if len(results) == 0:
-		print 'No documents match your query'
+	if not isJSON:
+		if len(results) == 0:
+			print 'No documents match your query'
+		else:
+			for i, result in enumerate(results):
+				print `i + 1` + ' - Calculated Rank: ' + `result.rank` + ' - File: ' +  result.doc.file
 	else:
-		for i, doc in enumerate(results):
-			print `i + 1` + ' - Calculated Rank: ' + `doc.calcRank(re.sub('(AND|-)', ' ', str.upper()).split())` + ' - File: ' +  doc.file
+		list = dict()
+		for i, e in enumerate(results):
+			list[i] = e.json
+		print json.dumps(list)
 
 # Command line interaction
 parser = argparse.ArgumentParser(description='Scan documents based on a simple query')
 parser.add_argument('-i', '--interactive', action="store_true", help='Run in interactive mode')
-parser.add_argument('-q', '--query', help='Allows for basic AND, OR, and NOT logical operators.')
+parser.add_argument('-q', '--query', help='Enter a query in quotation (") marks')
+parser.add_argument('-j', '--json', help='Output in JSON format for web interface')
 
 # Parse the arguments and handle the situation appropriately
 args = parser.parse_args()
-if args.query:
+if args.json:
+	printQuery(args.json, True)
+elif args.query:
 	printQuery(args.query)
 elif args.interactive:
 	print "Enter a query or '-q' to exit: "
