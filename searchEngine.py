@@ -108,7 +108,7 @@ def parseQuery(mergee, words):
 		# resolve the immediate word and continue to parse since AND has highest priority
 		return parseQuery(mergeAND(mergee, DOC.docsHave[words[0]]), words[1:])
 
-class heapNode:
+class sortNode:
 	def __init__(self, doc, words):
 		# set node attributes
 		self.doc = doc
@@ -125,7 +125,7 @@ class heapNode:
 def fetchQuery(str):
 	# regex to replace AND or -'s with a space, as that is the default operation for two words, then convert to upper for case insensitivity and split into an array of words
 	words = re.sub('(AND|-)', ' ', str.upper()).split()
-	results = [heapNode(e, words) for e in parseQuery(docs, words)]
+	results = [sortNode(e, words) for e in parseQuery(docs, words)]
 	
 	# sort the result
 	# TODO: Insert sort method call
