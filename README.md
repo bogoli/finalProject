@@ -1,4 +1,9 @@
-finalProject
+Search Engine
 ============
 
-Mini search engine for CS2420 — Data Structures and Algorithms
+CS 2420 — Data Structures and Algorithms
+John Call 
+Lia Bogoev
+
+============
+
