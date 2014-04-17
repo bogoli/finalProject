@@ -95,7 +95,10 @@ $(document).ready(function() {
 			dialog.find('h4').html(highlightText(html.find('BIBLIO').html()));
 			dialog.find('p').html(highlightText(html.find('TEXT').html()));
 		}).fail(function() {
-			
+			dialog.find('h2').html('Unable to Connect to Remote Server...');
+			dialog.find('h3').html('');
+			dialog.find('h4').html('');
+			dialog.find('p').html('');
 		});
 		return false;
 	});
