@@ -61,9 +61,20 @@ $(document).ready(function() {
 	results.on('click', 'a', function() {
 		function highlightText(str) {
 			var highlightedText = str,
-				query = input.val().replace(/(AND|-|OR|NOT|[^\w])/, ' ').replace(/ {2,}/, ' ').split(' ');
-			$.each(query, function(i, word) { highlightedText = highlightedText.replace(word, leftDelimiter + word + rightDelimiter, 'i'); });
-			highlightedText = highlightedText.replace(leftDelimiter, '<span class="highlight">', 'g').replace(rightDelimiter, '</span>', 'g');
+				query = input.val()
+					.replace(/(AND|-|OR|NOT|[^\w])/, ' ')
+					.replace(/ {2,}/, ' ')
+					.split(' ');
+			
+			$.each(query, function(i, word) {
+				highlightedText = highlightedText
+					.replace(new RegExp(word, 'gi'), leftDelimiter + word + rightDelimiter);
+			});
+			
+			highlightedText = highlightedText
+				.replace(new RegExp(leftDelimiter, 'g'), '<span class="highlight">')
+				.replace(new RegExp(rightDelimiter, 'g'), '</span>');
+			
 			return highlightedText;
 		}
 		
