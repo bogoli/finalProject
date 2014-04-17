@@ -1,0 +1,40 @@
+Final Project
+CS 2420
+Lia Bogoev & John Call
+
+Introduction
+
+
+Algorithms
+	//algorithms you employ, again with a justification of your decision
+	//particular emphasis should be placed on the running time of your algorithm
+	- three things that influence: words in doc, # of docs, # of words in query (W, D, Q)
+
+	The three main factors that influence the speed of our engine are the number of words in documents, the number of documents, and the number of words in the query. The algorithm that we use to address the boolean operators in the search query (parseQuery) is recursive. Given that the majority of queries will not be more than five words, recursion is a fine choice. The code itself is clean and readable and functions well. 
+
+	Instead of writing our own quickSort or mergeSort algorithm to implement document ranking, we used Python’s built in timsort, because its time complexity in best case is better than both quickSort and mergeSort, O(n). Average case and worst case are both the equivalent of mergeSort, O(n*log(n)). Timsort makes use of already sorted subsets of data, storing them in temporary arrays before merging them. The only potential hazard with timsort is space complexity, which is the worst case is O(n). With such a small scale project, however, space was not of much concern. 
+	
+	__index function 
+	number of documents + number of words in document
+
+Design Issues
+	At first glance, handling the boolean operators of the search queries seemed trivial. Once we began to write the function, however, it quickly became apparent that we would need to either limit the number of search terms so that we could focus on one boolean operator at a time, or we would need to write a recursive function. We chose to go with recursion so that we could have flexibility in the number of search items.
+	Our project is based mainly on the use of two data structures: an array of hash tables. We chose a hash table for its time complexity: accessing 
+	
+Optimization
+	//optimization issues: what could you do to further optimize your algorithm
+	parseQuery
+		worst case: Iterative through all the words in all the documents (if you’re searching for common word)
+		best case: searching for one word O(1) (hash table)
+
+Scalability
+	// you need to specifically address the problem of scalability: would you implementation be efficient in the case of very large text collections?
+		our scalability sucks.
+		if a lot of documents, index things in parallel (just like google)
+		many results would need pagination 
+
+Sample Query Results
+	// the report will also include results you obtained for the given sample queries, and for at least five additional queries of your choice
+
+Graphic Design Notes
+	The face of any programming project inherently influences how people react to it. Aside from its incredibly complex and groundbreaking algorithms, Google’s simple, minimalist design draws people in. Inspired by Google’s originality, we implemented a clean HTML interface to showcase our search engine. We felt that showing the search query in context with highlighting would enhance the usefulness of our engine, and that the design as a whole elevates the experience of searching. 
