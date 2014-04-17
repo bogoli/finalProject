@@ -75,7 +75,7 @@ input:-moz-placeholder{
 	font-size: 1em;
 }
 
-button#search{
+button{
 	display: inline;
 	height: 40px;
 	width: 40px;
@@ -94,22 +94,7 @@ button#search{
 }
 
 button#close{
-	height: 40px;
 	width: 80px;
-	padding: 0px;
-	margin-top: 20px;
-	margin-left: auto;
-	margin-right: auto;
-
-	font-family: 'Source Code Pro', Arial;
-	font-weight: 300; 
-	font-size: 1.2em;
-	line-height: 1.2em;
-
-	border: 1px solid #777;
- 	border-radius: 25px;
-
- 	background: #ddd;
 }
 
 img{
