@@ -60,11 +60,10 @@ $(document).ready(function() {
 	// Bind the expansion element in an article to open a highlighted full text view
 	results.on('click', 'a', function() {
 		function highlightText(str) {
-			console.log(str);
 			var highlightedText = str,
 				query = input.val().replace(/(AND|-|OR|NOT|[^\w])/, ' ').replace(/ {2,}/, ' ').split(' ');
 			$.each(query, function(i, word) { highlightedText = highlightedText.replace(word, leftDelimiter + word + rightDelimiter, 'i'); });
-			highlightedText = highlightedText.replace(leftDelimiter, '<span class="highlight">').replace(rightDelimiter, '</span>');
+			highlightedText = highlightedText.replace(leftDelimiter, '<span class="highlight">', 'g').replace(rightDelimiter, '</span>', 'g');
 			return highlightedText;
 		}
 		
@@ -80,7 +79,6 @@ $(document).ready(function() {
 			}
 		}).done(function(response) {
 			var html = $(response);
-			console.log(html);
 			dialog.find('h2').html(highlightText(html.find('TITLE').html()));
 			dialog.find('h3').html(highlightText(html.find('AUTHOR').html()));
 			dialog.find('h4').html(highlightText(html.find('BIBLIO').html()));
