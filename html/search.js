@@ -1,7 +1,10 @@
 $(document).ready(function() {
 	var
-	query,
-	results = $("section#results"),
+	leftDelimiter = String.fromCharCode(128),
+	rightDelimiter = String.fromCharCode(129),
+	input = $('input'),
+	results = $('section#results'),
+	dialog = $('div#modal'),
 	
 	// Return a jQuery object representing a dynamically generated loading image
 	ajaxLoader = $('<article>', {
@@ -14,7 +17,6 @@ $(document).ready(function() {
 	
 	// Perform a search based on input from the text input
 	search = function() {
-		query = $('input').val();
 		results.html(ajaxLoader);
 		
 		$.ajax({
@@ -23,7 +25,7 @@ $(document).ready(function() {
 			dataType: 'json',
 			cache: false,
 			data: {
-				'q': query,
+				'q': input.val(),
 				'action': 'search'
 			}
 		}).done(function(json) {
@@ -47,8 +49,8 @@ $(document).ready(function() {
 	};
 	
 	// Bind the search method for both button click and the enter key press in the search box
-	$('button').bind('click', search);
-	$('input').bind('keypress', function(event) {
+	$('section#search').find('button').bind('click', search);
+	input.bind('keypress', function(event) {
 		if (event.which == 13) {
 			event.preventDefault();
 			search();
@@ -57,7 +59,39 @@ $(document).ready(function() {
 	
 	// Bind the expansion element in an article to open a highlighted full text view
 	results.on('click', 'a', function() {
-		console.log('show file: ' + $(this).attr('href'));
+		function highlightText(str) {
+			console.log(str);
+			var highlightedText = str,
+				query = input.val().replace(/(AND|-|OR|NOT|[^\w])/, ' ').replace(/ {2,}/, ' ').split(' ');
+			$.each(query, function(i, word) { highlightedText = highlightedText.replace(word, leftDelimiter + word + rightDelimiter, 'i'); });
+			highlightedText = highlightedText.replace(leftDelimiter, '<span class="highlight">').replace(rightDelimiter, '</span>');
+			return highlightedText;
+		}
+		
+		$('body').addClass('dialogIsOpen');
+		$.ajax({
+			type: 'POST',
+			url: 'search.php',
+			cache: false,
+			data: {
+				'q': input.val(),
+				'action': 'expand',
+				'doc': $(this).attr('href')
+			}
+		}).done(function(response) {
+			var html = $(response);
+			console.log(html);
+			dialog.find('h2').html(highlightText(html.find('TITLE').html()));
+			dialog.find('h3').html(highlightText(html.find('AUTHOR').html()));
+			dialog.find('h4').html(highlightText(html.find('BIBLIO').html()));
+			dialog.find('p').html(highlightText(html.find('TEXT').html()));
+		}).fail(function() {
+			
+		});
 		return false;
+	});
+	
+	dialog.find('button').click(function() {
+		$('body').removeClass('dialogIsOpen');
 	});
 });
