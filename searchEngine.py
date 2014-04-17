@@ -128,7 +128,7 @@ def fetchQuery(str):
 	results = [sortNode(e, words) for e in parseQuery(docs, words)]
 	
 	# sort the result
-	# TODO: Insert sort method call
+	results = sorted(results, key=lambda sortNode: sortNode.rank)
 	
 	# return the sorted list
 	return results
