@@ -1,6 +1,6 @@
 /* style.css */
 /* Lia Bogoev & John Call - CS2420 Final Project */
-
+/* source: http://css-tricks.com/receding-background-modal-boxes/ */
 body{
     margin: 0;
     padding: 0;
@@ -100,6 +100,7 @@ img{
 
 
 article{
+	font-family: 'Roboto', sans-serif;
 	width: 75%;
 	margin: 25px auto;
 }
@@ -123,15 +124,18 @@ p{
 }
 
 h1{
+	font-weight: 300;
 	font-size: 4em;
 	line-height: .75em;
 }
 h2{
+	font-weight: 300;
 	margin: 0;
-	font-size: 1.4em;
+	font-size: 1.5em;
 	line-height: 2em;
 }
 h3{
+	font-weight: 300;
 	margin: 0;
 	font-size: 1.2em;
 	line-height: 1.5em;
@@ -148,3 +152,50 @@ a:visited {
 a:hover {
 	color: #FE5A27;
 }
+
+#modal {
+  background: white;
+
+  position: fixed;
+  width: 50%;
+  top: 50%;
+  left: 50%;
+  margin: -25% 0 0 -25%;
+
+  /* Embiggen */
+  transform: scale(1.5); /* prefix me */
+
+  /* Hidden */
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dialogIsOpen #page-wrap {
+
+  /* Blur and de-color */
+  -webkit-filter: blur(5px) grayscale(50%);
+
+  /* Recede */
+  -webkit-transform: scale(0.9);
+
+}
+
+.dialogIsOpen #modal {
+  
+  /* Regular size and visible */
+  transform: scale(1); /* prefix me */
+  opacity: 1;
+
+  /* Clickable */
+  pointer-events: auto;
+
+}
+
+#page-wrap, #modal {
+  
+  transition: all 0.4s ease; /* prefix me */
+
+}
+
+
+

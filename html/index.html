@@ -7,50 +7,61 @@
 		<link rel="shortcut icon" href="/favicon.ico"/>
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:300' rel='stylesheet' type='text/css'>
-		
+		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 		<script src="search.js"></script>
 	</head>  
 
 	<body>
-		<header>
-			<div class = "wrapper">
-				<h1>search&nbsp;engine</h1>
-			</div>		
-		</header>
+		<div id="page-wrap">
+			<header>
+				<div class = "wrapper">
+					<h1>search&nbsp;engine</h1>
+				</div>		
+			</header>
 
-		<section id = "search">
-			<div class = "wrapper">
-				<form>
-					<input type="text" placeholder="What are you looking for?">
-					<button type="button"><img src="icon.png"/></button>
-				</form>
-			</div>
-		</section>
+			<section id = "search">
+				<div class = "wrapper">
+					<form>
+						<input type="text" placeholder="What are you looking for?">
+						<button type="button"><img src="icon.png"/></button>
+					</form>
+				</div>
+			</section>
 
-		<section id = "results">
-			<div class = "wrapper">
-				<!-- this will take variables for results 
-				<article>
-					<h2>Experimental Investigation</h2>
-					<h3>Brenckman, M.</h3>
-					<a href="">expand</a>
-				</article>	
+			<section id = "results">
+				<div class = "wrapper">
+					
+					<article>
+						<h2>Experimental Investigation one dimensional heatflow</h2>
+						<h3>Brenckman, M.</h3>
+						<a href="">expand</a>
+					</article>	
+<!-- this will take variables for results 	
+					<article>
+						<h2>One-Dimensional Transient Heat Flow</h2>
+						<h3>Campbell,W.F.</h3>
+						<a href="">expand</a>
+					</article>	
+					-->
+				</div>
+			</section>
 
-				<article>
-					<h2>One-Dimensional Transient Heat Flow</h2>
-					<h3>Campbell,W.F.</h3>
-					<a href="">expand</a>
-				</article>	
-				-->
-			</div>
-		</section>
+			<footer>
+				<div class = "wrapper">
+					<p>John Call & Lia Bogoev</p>
+					<p>CS 2420: Data Structures and Algorithms</p>
+				</div>
+			</footer>
+		</div> <!-- end of "page-wrap"-->
+		
+		<div id="modal">
+			<article>
+				<!-- modal stuff here--> 
+			</article>
+		</div><!-- end of "modal"-->
 
-		<footer>
-			<div class = "wrapper">
-				<p>John Call & Lia Bogoev</p>
-				<p>CS 2420: Data Structures and Algorithms</p>
-			</div>
-		</footer>
+
 	</body>
 </html>
