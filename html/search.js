@@ -62,8 +62,8 @@ $(document).ready(function() {
 		function highlightText(str) {
 			var highlightedText = str,
 				query = input.val()
-					.replace(/(AND|-|OR|NOT|[^\w])/, ' ')
-					.replace(/ {2,}/, ' ')
+					.replace(/(AND|-|OR|NOT|[^\w])/gi, ' ')
+					.replace(/ {2,}/g, ' ')
 					.split(' ');
 			
 			$.each(query, function(i, word) {
