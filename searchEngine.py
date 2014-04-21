@@ -119,11 +119,11 @@ class sortNode:
 		self.json['file'] = self.doc.file
 		self.json['title'] = self.doc.title
 		self.json['author'] = self.doc.author
-		#self.json['biblio'] = self.doc.biblio
 
 # prepare the query statement to be handled by the recursive parser - AND gets priority so replace it with space
 def fetchQuery(str):
-	# regex to replace AND or -'s with a space, as that is the default operation for two words, then convert to upper for case insensitivity and split into an array of words
+	# regex to replace AND or -'s with a space, as that is the default operation for two words
+	# then convert to upper for case insensitivity and split into an array of words
 	words = re.sub('(AND|-)', ' ', str.upper()).split()
 	results = [sortNode(e, words) for e in parseQuery(docs, words)]
 	
