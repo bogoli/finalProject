@@ -151,8 +151,8 @@ def printQuery(str, isJSON = False):
 # Command line interaction
 parser = argparse.ArgumentParser(description='Scan documents based on a simple query')
 parser.add_argument('-i', '--interactive', action="store_true", help='Run in interactive mode')
-parser.add_argument('-q', '--query', help='Enter a query in quotation (") marks')
-parser.add_argument('-j', '--json', help='Output in JSON format for web interface')
+parser.add_argument('-q', '--query', help='Search single following query in quotation (") marks')
+parser.add_argument('-j', '--json', help='Same as -q but outputs as JSON for web interface')
 
 # Parse the arguments and handle the situation appropriately
 args = parser.parse_args()
