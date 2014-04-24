@@ -29,4 +29,4 @@ For an example type: python searchEngine.py -q "boundary-layer OR increment"
 To access the web interface, install apache with php on a unix-based machine (linux or mac)
 Make the DocumentRoot of the apache server the "html" directory, and the DirectoryIndex "index.html"
 If you wish you may set ServerName to cs2420.localhost or something similar but you may need to add it to your hosts file
-Open a web browser (preferably Firefox or Chrome) and naviagate to "localhost" (or whatever you made the ServerName in the last step)
+Open a web browser (preferably Firefox or Chrome) and navigate to "localhost" (or whatever you made the ServerName in the last step)
