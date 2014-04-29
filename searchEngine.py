@@ -14,7 +14,7 @@ import re
 stopWords = dict()
 with open('stopwords.txt', 'r') as wordList:
 	for line in wordList:
-		stopWords[line.strip()] = 1 
+		stopWords[line.strip().upper()] = 1 
 	
 
 class DOC:
@@ -84,10 +84,6 @@ def parseQuery(mergee, words):
 	if not words:
 		return mergee;
 
-	# next simplest base case, the first word is not found in the query
-	elif words[0] not in DOC.docsHave:
-		return parseQuery([], words[1:])
-	
 	elif words[0] == 'NOT':
 		# there better be at least one word after NOT that's neither NOT nor OR
 		if len(words) == 1 or words[1] == 'NOT' or words[1] == 'OR':
@@ -103,6 +99,10 @@ def parseQuery(mergee, words):
 		
 		# resolve the right hand side and then merge with the left since OR has low priority
 		return mergeOR(mergee, parseQuery(docs, words[1:]))
+
+        # second simplest base case, the first word is not found in the query
+        elif words[0] not in DOC.docsHave:
+                return parseQuery([], words[1:])
 	
 	else:
 		# resolve the immediate word and continue to parse since AND has highest priority

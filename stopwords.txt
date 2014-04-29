@@ -27,6 +27,7 @@ many
 me
 my
 none
+not
 of
 on 
 or
