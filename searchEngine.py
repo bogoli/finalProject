@@ -141,7 +141,7 @@ def printQuery(str, isJSON = False):
 			print 'No documents match your query'
 		else:
 			for i, result in enumerate(results):
-				print `i + 1` + ' - Calculated Rank: ' + `result.rank` + ' - File: ' +  result.doc.file
+				print format(i + 1, '02d') + ' - Calculated Rank: ' + format(result.rank, '.5f') + ' - File: ' + result.doc.file
 	else:
 		list = dict()
 		for i, e in enumerate(results):
